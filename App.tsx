@@ -6,7 +6,11 @@ export default function App() {
   const [focusSubject, setFocusSubject] = useState<string>("");
   return (
     <View style={styles.container}>
-      {focusSubject ? <Text>focus subject is {focusSubject}</Text> : <Focus />}
+      {focusSubject ? (
+        <Text>focus subject is {focusSubject}</Text>
+      ) : (
+        <Focus addSubject={setFocusSubject} />
+      )}
     </View>
   );
 }
