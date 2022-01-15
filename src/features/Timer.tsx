@@ -8,15 +8,31 @@ import RoundedButton from "../components/RoundedButton";
 const Timer = ({ focusSubject, setFocusSubject }: iTimer) => {
   const [minutes, setMinutes] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
+  const [reset, setReset] = useState(false);
   const [progress, setProgress] = useState(1);
+
+  const changeTime = (min: number) => {
+    setReset(true);
+    setIsStarted(false);
+    setMinutes(min);
+    setProgress(1);
+  };
+
+  const finishReset = () => {
+    setMinutes(0);
+    setIsStarted(false);
+    setProgress(0);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.counterSec}>
         <Counter
           minutes={minutes}
           isStarted={isStarted}
-          setIsStarted={setIsStarted}
           setProgress={setProgress}
+          finishReset={finishReset}
+          shouldReset={reset}
         />
       </View>
       <CustomProgressBar progress={progress} />
@@ -26,15 +42,18 @@ const Timer = ({ focusSubject, setFocusSubject }: iTimer) => {
       </View>
       <View style={styles.controlSec}>
         <View style={styles.setTimeSec}>
-          <RoundedButton size={50} title="1" onPress={() => setMinutes(1)} />
-          <RoundedButton size={50} title="5" onPress={() => setMinutes(5)} />
-          <RoundedButton size={50} title="10" onPress={() => setMinutes(10)} />
-          <RoundedButton size={50} title="20" onPress={() => setMinutes(20)} />
+          <RoundedButton size={70} title="5" onPress={() => changeTime(5)} />
+          <RoundedButton size={70} title="10" onPress={() => changeTime(10)} />
+          <RoundedButton size={70} title="20" onPress={() => changeTime(20)} />
         </View>
         <RoundedButton
           size={150}
           title={isStarted ? "PAUSE" : "START"}
-          onPress={() => setIsStarted(!isStarted)}
+          onPress={() => {
+            setReset(false);
+            if (minutes === 0) return;
+            setIsStarted(!isStarted);
+          }}
         />
       </View>
     </View>

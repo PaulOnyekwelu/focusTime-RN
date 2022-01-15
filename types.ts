@@ -20,8 +20,9 @@ export interface iTimer {
 export interface iCounter {
   minutes: number;
   isStarted: boolean;
-  setIsStarted: (val: boolean) => void;
-  setProgress: (val: number) => void
+  shouldReset: boolean;
+  setProgress: (val: number) => void;
+  finishReset: () => void
 }
 
 export interface iProgressBar {

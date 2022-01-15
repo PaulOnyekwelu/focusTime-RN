@@ -8,33 +8,33 @@ const formatTime = (time: number) => (time < 10 ? `0${time}` : time);
 const Counter = ({
   minutes,
   isStarted,
-  setIsStarted,
   setProgress,
+  finishReset,
+  shouldReset,
 }: iCounter) => {
   const [milliSec, setMillSec] = useState(0);
-
-  const intervalHandler = (interval: NodeJS.Timeout) => {
-    setMillSec((timer) => {
-      if (timer - 1000 <= 0) {
-        setIsStarted(false);
-        setProgress(0);
-        clearInterval(interval);
-        return 0;
-      } else {
-        setProgress(timer / minutesToMilliSec(minutes));
-        return timer - 1000;
-      }
-    });
-  };
+  let interval: NodeJS.Timeout;
 
   useEffect(() => {
-    setMillSec(minutesToMilliSec(minutes));
-  }, [minutes]);
+    console.log({shouldReset})
+    if (shouldReset) setMillSec(minutesToMilliSec(minutes));
+  }, [minutes, shouldReset]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
     if (isStarted) {
-      interval = setInterval(() => intervalHandler(interval), 1000);
+      interval = setInterval(() => {
+        setMillSec((timer) => {
+          if (timer === 0) {
+            finishReset();
+            clearInterval(interval);
+            return 0;
+          } else {
+            const timeLeft = timer - 1000;
+            setProgress(timeLeft / minutesToMilliSec(minutes));
+            return timeLeft;
+          }
+        });
+      }, 1000);
     }
 
     return () => {
@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 60,
+    fontSize: 90,
   },
 });
