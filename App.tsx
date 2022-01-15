@@ -7,10 +7,11 @@ export default function App() {
   const [focusSubject, setFocusSubject] = useState<string>(
     "learning react-native"
   );
+
   return (
     <View style={styles.container}>
       {focusSubject ? (
-        <Timer focusSubject={focusSubject} />
+        <Timer focusSubject={focusSubject} setFocusSubject={setFocusSubject} />
       ) : (
         <Focus setFocusSubject={setFocusSubject} />
       )}
