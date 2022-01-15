@@ -38,13 +38,14 @@ const styles = StyleSheet.create({
   inputSec: {
     flexDirection: "row",
     padding: 15,
-    alignItems: "center"
+    alignItems: "center",
   },
   input: {
     backgroundColor: "white",
     flex: 1,
-    height: 70,
+    height: 60,
     borderRadius: 5,
-    marginRight: 10
+    marginRight: 10,
+    fontSize: 25
   }
 });
