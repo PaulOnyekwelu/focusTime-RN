@@ -18,7 +18,12 @@ const Counter = ({
   useEffect(() => {
     console.log({shouldReset})
     if (shouldReset) setMillSec(minutesToMilliSec(minutes));
-  }, [minutes, shouldReset]);
+  }, [shouldReset]);
+
+  useEffect(() => {
+    setMillSec(minutesToMilliSec(minutes));
+  }, [minutes]);
+
 
   useEffect(() => {
     if (isStarted) {

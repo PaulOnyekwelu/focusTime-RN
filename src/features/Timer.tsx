@@ -1,12 +1,14 @@
+import { useKeepAwake } from "expo-keep-awake";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Vibration, Platform } from "react-native";
 import { iTimer } from "../../types";
 import Counter from "../components/Counter";
 import CustomProgressBar from "../components/CustomProgressBar";
 import RoundedButton from "../components/RoundedButton";
 
-const Timer = ({ focusSubject, setFocusSubject }: iTimer) => {
-  const [minutes, setMinutes] = useState(0);
+const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
+  useKeepAwake();
+  const [minutes, setMinutes] = useState(0.1);
   const [isStarted, setIsStarted] = useState(false);
   const [reset, setReset] = useState(false);
   const [progress, setProgress] = useState(1);
@@ -18,7 +20,20 @@ const Timer = ({ focusSubject, setFocusSubject }: iTimer) => {
     setProgress(1);
   };
 
+  const vibrate = () => {
+    if (Platform.OS === "ios") {
+      const interval = setInterval(() => Vibration.vibrate(), 1000);
+      setTimeout(() => {
+        clearInterval(interval);
+        onTimerEnd();
+      }, 10000);
+    } else {
+      Vibration.vibrate(10000);
+    }
+  };
+
   const finishReset = () => {
+    vibrate();
     setMinutes(0);
     setIsStarted(false);
     setProgress(0);
@@ -35,11 +50,11 @@ const Timer = ({ focusSubject, setFocusSubject }: iTimer) => {
           shouldReset={reset}
         />
       </View>
-      <CustomProgressBar progress={progress} />
       <View style={styles.textSec}>
         <Text style={styles.text}>Currently focusing on: </Text>
         <Text style={styles.text}>{focusSubject}</Text>
       </View>
+      <CustomProgressBar progress={progress} />
       <View style={styles.controlSec}>
         <View style={styles.setTimeSec}>
           <RoundedButton size={70} title="5" onPress={() => changeTime(5)} />

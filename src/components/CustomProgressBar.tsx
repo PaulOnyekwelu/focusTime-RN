@@ -15,6 +15,6 @@ export default CustomProgressBar;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 5
+    paddingHorizontal: 2
   }
 });

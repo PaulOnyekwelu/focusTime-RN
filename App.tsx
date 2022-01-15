@@ -4,14 +4,18 @@ import Focus from "./src/features/Focus";
 import Timer from "./src/features/Timer";
 
 export default function App() {
-  const [focusSubject, setFocusSubject] = useState<string>(
+  const [focusSubject, setFocusSubject] = useState<string | null>(
     "learning react-native"
   );
 
   return (
     <View style={styles.container}>
       {focusSubject ? (
-        <Timer focusSubject={focusSubject} setFocusSubject={setFocusSubject} />
+        <Timer
+          onTimerEnd={() => setFocusSubject(null)}
+          focusSubject={focusSubject}
+          setFocusSubject={setFocusSubject}
+        />
       ) : (
         <Focus setFocusSubject={setFocusSubject} />
       )}

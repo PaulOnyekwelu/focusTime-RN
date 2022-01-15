@@ -15,6 +15,7 @@ export interface iFocus {
 export interface iTimer {
   focusSubject: string;
   setFocusSubject: (input: string) => void;
+  onTimerEnd: () => void
 }
 
 export interface iCounter {
