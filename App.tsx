@@ -9,7 +9,7 @@ export default function App() {
       {focusSubject ? (
         <Text>focus subject is {focusSubject}</Text>
       ) : (
-        <Focus addSubject={setFocusSubject} />
+        <Focus setFocusSubject={setFocusSubject} />
       )}
     </View>
   );

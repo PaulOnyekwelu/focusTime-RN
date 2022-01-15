@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { iFocus } from "../../types";
 import RoundedButton from "../components/RoundedButton";
 
-const Focus = ({addSubject}: iFocus) => {
+const Focus = ({ setFocusSubject }: iFocus) => {
+  const [inputValue, setInputValue] = useState("");
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.text}>What would you like to focus on?</Text>
         <View style={styles.inputSec}>
-          <TextInput style={styles.input} />
-          <RoundedButton title="+" size={60} />
+          <TextInput
+            style={styles.input}
+            value={inputValue}
+            onChangeText={(text) => setInputValue(text)}
+          />
+          <RoundedButton
+            title="+"
+            size={60}
+            onPress={() => setFocusSubject(inputValue)}
+          />
         </View>
       </View>
     </View>
@@ -23,17 +32,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#03022F",
-    paddingTop: 40
+    paddingTop: 40,
   },
   content: {
     flex: 1,
     paddingTop: 100,
-    alignItems: "center"
+    alignItems: "center",
   },
   text: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 24
+    fontSize: 24,
   },
   inputSec: {
     flexDirection: "row",
@@ -46,6 +55,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 5,
     marginRight: 10,
-    fontSize: 25
-  }
+    fontSize: 25,
+    paddingHorizontal: 5
+  },
 });
