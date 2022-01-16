@@ -20,6 +20,7 @@ const Counter = ({
   }, [shouldReset]);
 
   useEffect(() => {
+    
     setMillSec(minutesToMilliSec(minutes));
   }, [minutes]);
 
@@ -48,12 +49,13 @@ const Counter = ({
     };
   }, [isStarted]);
 
+  const hr = milliSec >= 0 ? Math.floor(milliSec / 60 / 60 / 1000) % 60 : 0;
   const min = milliSec >= 0 ? Math.floor(milliSec / 60 / 1000) % 60 : 0;
   const sec = milliSec >= 0 ? Math.floor(milliSec / 1000) % 60 : 0;
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        {formatTime(min)}:{formatTime(sec)}
+      {formatTime(hr)}:{formatTime(min)}:{formatTime(sec)}
       </Text>
     </View>
   );
@@ -72,6 +74,6 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 90,
+    fontSize: 60,
   },
 });

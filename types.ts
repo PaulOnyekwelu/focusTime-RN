@@ -15,7 +15,7 @@ export interface iFocus {
 export interface iTimer {
   focusSubject: string;
   setFocusSubject: (input: string) => void;
-  onTimerEnd: () => void
+  onTimerEnd: () => void;
 }
 
 export interface iCounter {
@@ -23,9 +23,13 @@ export interface iCounter {
   isStarted: boolean;
   shouldReset: boolean;
   setProgress: (val: number) => void;
-  finishReset: () => void
+  finishReset: () => void;
 }
 
 export interface iProgressBar {
-  progress: number
+  progress: number;
+}
+
+export interface iTiming {
+  changeTimeHandler: (val: number, type?: string) => void;
 }

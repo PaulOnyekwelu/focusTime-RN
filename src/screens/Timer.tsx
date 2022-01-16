@@ -5,6 +5,7 @@ import { iTimer } from "../../types";
 import Counter from "../components/Counter";
 import CustomProgressBar from "../components/CustomProgressBar";
 import RoundedButton from "../components/RoundedButton";
+import Timing from "../components/Timing";
 
 const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
   useKeepAwake();
@@ -13,11 +14,18 @@ const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
   const [reset, setReset] = useState(false);
   const [progress, setProgress] = useState<number>(1);
 
-  const changeTime = (min: number) => {
+  const changeTimeHandler = (val: number, type?: string) => {
     setReset(true);
     setIsStarted(false);
-    setMinutes(min);
     setProgress(1);
+    if (type === "+") {
+      setMinutes(minutes + val);
+    } else if (type === "-") {
+      const result = minutes - val;
+      if (result >= 0) setMinutes(result);
+    } else {
+      setMinutes(val);
+    }
   };
 
   const VibrateAndEnd = () => {
@@ -56,11 +64,7 @@ const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
       </View>
       <CustomProgressBar progress={progress} />
       <View style={styles.controlSec}>
-        <View style={styles.setTimeSec}>
-          <RoundedButton size={70} title="5" onPress={() => changeTime(5)} />
-          <RoundedButton size={70} title="10" onPress={() => changeTime(10)} />
-          <RoundedButton size={70} title="20" onPress={() => changeTime(20)} />
-        </View>
+        <Timing changeTimeHandler={changeTimeHandler} />
         <RoundedButton
           size={150}
           title={isStarted ? "PAUSE" : "START"}
@@ -100,11 +104,5 @@ const styles = StyleSheet.create({
   controlSec: {
     padding: 20,
     alignItems: "center",
-  },
-  setTimeSec: {
-    width: "100%",
-    padding: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 });
