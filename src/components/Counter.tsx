@@ -16,7 +16,6 @@ const Counter = ({
   let interval: NodeJS.Timeout;
 
   useEffect(() => {
-    console.log({shouldReset})
     if (shouldReset) setMillSec(minutesToMilliSec(minutes));
   }, [shouldReset]);
 
@@ -24,19 +23,21 @@ const Counter = ({
     setMillSec(minutesToMilliSec(minutes));
   }, [minutes]);
 
+  useEffect(() => {
+    const result = milliSec / (minutesToMilliSec(minutes) | 1);
+    setProgress(result);
+    if(milliSec === 0 && isStarted) finishReset();
+  }, [milliSec]);
 
   useEffect(() => {
     if (isStarted) {
       interval = setInterval(() => {
         setMillSec((timer) => {
           if (timer === 0) {
-            finishReset();
             clearInterval(interval);
-            return 0;
+            return timer;
           } else {
-            const timeLeft = timer - 1000;
-            setProgress(timeLeft / minutesToMilliSec(minutes));
-            return timeLeft;
+            return timer - 1000;
           }
         });
       }, 1000);
@@ -47,8 +48,8 @@ const Counter = ({
     };
   }, [isStarted]);
 
-  const min = Math.floor(milliSec / 60 / 1000) % 60;
-  const sec = Math.floor(milliSec / 1000) % 60;
+  const min = milliSec >= 0 ? Math.floor(milliSec / 60 / 1000) % 60 : 0;
+  const sec = milliSec >= 0 ? Math.floor(milliSec / 1000) % 60 : 0;
   return (
     <View style={styles.container}>
       <Text style={styles.text}>

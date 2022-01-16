@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Focus from "./src/features/Focus";
-import Timer from "./src/features/Timer";
+import Focus from "./src/screens/Focus";
+import Timer from "./src/screens/Timer";
 
 export default function App() {
-  const [focusSubject, setFocusSubject] = useState<string | null>(
-    "learning react-native"
-  );
+  const [focusSubject, setFocusSubject] = useState<string | null>("");
 
   return (
     <View style={styles.container}>

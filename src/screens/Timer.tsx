@@ -8,10 +8,10 @@ import RoundedButton from "../components/RoundedButton";
 
 const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
   useKeepAwake();
-  const [minutes, setMinutes] = useState(0.1);
+  const [minutes, setMinutes] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
   const [reset, setReset] = useState(false);
-  const [progress, setProgress] = useState(1);
+  const [progress, setProgress] = useState<number>(1);
 
   const changeTime = (min: number) => {
     setReset(true);
@@ -20,7 +20,7 @@ const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
     setProgress(1);
   };
 
-  const vibrate = () => {
+  const VibrateAndEnd = () => {
     if (Platform.OS === "ios") {
       const interval = setInterval(() => Vibration.vibrate(), 1000);
       setTimeout(() => {
@@ -33,10 +33,10 @@ const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
   };
 
   const finishReset = () => {
-    vibrate();
     setMinutes(0);
     setIsStarted(false);
     setProgress(0);
+    VibrateAndEnd();
   };
 
   return (
