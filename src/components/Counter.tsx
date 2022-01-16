@@ -11,6 +11,7 @@ const Counter = ({
   setProgress,
   finishReset,
   shouldReset,
+  isCompleted
 }: iCounter) => {
   const [milliSec, setMillSec] = useState(0);
   let interval: NodeJS.Timeout;
@@ -53,8 +54,8 @@ const Counter = ({
   const min = milliSec >= 0 ? Math.floor(milliSec / 60 / 1000) % 60 : 0;
   const sec = milliSec >= 0 ? Math.floor(milliSec / 1000) % 60 : 0;
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
+    <View style={styles(isCompleted).container}>
+      <Text style={styles(isCompleted).text}>
       {formatTime(hr)}:{formatTime(min)}:{formatTime(sec)}
       </Text>
     </View>
@@ -63,9 +64,9 @@ const Counter = ({
 
 export default Counter;
 
-const styles = StyleSheet.create({
+const styles = (isCompleted: boolean) => StyleSheet.create({
   container: {
-    backgroundColor: "#0A06A1",
+    backgroundColor: isCompleted ? "green" : "#0A06A1",
     width: "70%",
     paddingVertical: 20,
     alignItems: "center",

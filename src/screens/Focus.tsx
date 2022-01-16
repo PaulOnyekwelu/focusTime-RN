@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { iFocus } from "../../types";
+import FocusHistory from "../components/FocusHistory";
 import RoundedButton from "../components/RoundedButton";
 
-const Focus = ({ setFocusSubject }: iFocus) => {
+const Focus = ({ setFocusSubject, focusHistory, clearHistory }: iFocus) => {
   const [inputValue, setInputValue] = useState("");
   return (
     <View style={styles.container}>
@@ -22,6 +23,9 @@ const Focus = ({ setFocusSubject }: iFocus) => {
           />
         </View>
       </View>
+      {focusHistory && FocusHistory.length > 0 && (
+        <FocusHistory clearHistory={clearHistory} focusHistory={focusHistory} />
+      )}
     </View>
   );
 };
@@ -56,6 +60,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 10,
     fontSize: 25,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
 });

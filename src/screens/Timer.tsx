@@ -7,12 +7,18 @@ import CustomProgressBar from "../components/CustomProgressBar";
 import RoundedButton from "../components/RoundedButton";
 import Timing from "../components/Timing";
 
-const Timer = ({ focusSubject, onTimerEnd, backButtonHandler }: iTimer) => {
+const Timer = ({
+  focusSubject,
+  onTimerEnd,
+  backButtonHandler,
+  addToHistory,
+}: iTimer) => {
   useKeepAwake();
-  const [minutes, setMinutes] = useState(0);
+  const [minutes, setMinutes] = useState(0.1);
   const [isStarted, setIsStarted] = useState(false);
   const [reset, setReset] = useState(false);
   const [progress, setProgress] = useState<number>(1);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const changeTimeHandler = (val: number, type?: string) => {
     setReset(true);
@@ -41,6 +47,8 @@ const Timer = ({ focusSubject, onTimerEnd, backButtonHandler }: iTimer) => {
   };
 
   const finishReset = () => {
+    setIsCompleted(true);
+    addToHistory(focusSubject, true);
     setMinutes(0);
     setIsStarted(false);
     setProgress(0);
@@ -56,6 +64,7 @@ const Timer = ({ focusSubject, onTimerEnd, backButtonHandler }: iTimer) => {
           setProgress={setProgress}
           finishReset={finishReset}
           shouldReset={reset}
+          isCompleted={isCompleted}
         />
       </View>
       <View style={styles.textSec}>
@@ -78,7 +87,10 @@ const Timer = ({ focusSubject, onTimerEnd, backButtonHandler }: iTimer) => {
           <RoundedButton
             title="Back"
             size={75}
-            onPress={() => backButtonHandler()}
+            onPress={() => {
+              addToHistory(focusSubject, isCompleted);
+              backButtonHandler();
+            }}
           />
         </View>
       </View>
@@ -116,6 +128,6 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "100%",
     alignItems: "flex-end",
-    flex: 1
-  }
+    flex: 1,
+  },
 });
