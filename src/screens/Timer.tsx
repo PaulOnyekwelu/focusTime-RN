@@ -39,16 +39,16 @@ const Timer = ({
       const interval = setInterval(() => Vibration.vibrate(), 1000);
       setTimeout(() => {
         clearInterval(interval);
+        addToHistory(focusSubject, true);
         onTimerEnd();
-      }, 10000);
+      }, 20000);
     } else {
-      Vibration.vibrate(10000);
+      Vibration.vibrate(20000);
     }
   };
 
   const finishReset = () => {
     setIsCompleted(true);
-    addToHistory(focusSubject, true);
     setMinutes(0);
     setIsStarted(false);
     setProgress(0);
