@@ -13,6 +13,7 @@ export default function App() {
           onTimerEnd={() => setFocusSubject(null)}
           focusSubject={focusSubject}
           setFocusSubject={setFocusSubject}
+          backButtonHandler={() => setFocusSubject("")}
         />
       ) : (
         <Focus setFocusSubject={setFocusSubject} />

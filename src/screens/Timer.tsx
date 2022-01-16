@@ -7,7 +7,7 @@ import CustomProgressBar from "../components/CustomProgressBar";
 import RoundedButton from "../components/RoundedButton";
 import Timing from "../components/Timing";
 
-const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
+const Timer = ({ focusSubject, onTimerEnd, backButtonHandler }: iTimer) => {
   useKeepAwake();
   const [minutes, setMinutes] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
@@ -74,6 +74,13 @@ const Timer = ({ focusSubject, onTimerEnd }: iTimer) => {
             setIsStarted(!isStarted);
           }}
         />
+        <View style={styles.navSec}>
+          <RoundedButton
+            title="Back"
+            size={75}
+            onPress={() => backButtonHandler()}
+          />
+        </View>
       </View>
     </View>
   );
@@ -105,4 +112,10 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
   },
+  navSec: {
+    padding: 20,
+    width: "100%",
+    alignItems: "flex-end",
+    flex: 1
+  }
 });
